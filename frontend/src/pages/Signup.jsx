@@ -1,73 +1,102 @@
+import  { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 export const Signup = () => {
-    return (
-      <div className="flex h-screen">
-        <div className="relative w-1/2 flex flex-col justify-center p-8 bg-black bg-opacity-60 text-white">
-          {/* Left side with the image and text */}
-          <div className="text-center mb-8">
-            <div className="text-2xl mb-4">Logo app ka</div>
-            <h1 className="text-3xl font-bold mb-4">Welcome to Smart Guard</h1>
-            <img src="/path-to-your-vector-image.png" alt="Welcome" className="w-3/4 h-auto mx-auto" />
-          </div>
-          <p className="text-sm text-gray-300">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the {"industry's"} standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but...
-          </p>
-        </div>
-        
-        <div className="relative w-1/2 flex flex-col justify-center p-8 bg-black bg-opacity-60 text-white border-l-4 border-white">
-          {/* Right side with the signup form */}
-          <h2 className="text-xl mb-6 text-center">smart Guard ke upar tagline</h2>
-          <h2 className="text-3xl font-bold mb-6 text-center">Sign Up</h2>
-          <form className="space-y-4">
-            <input 
-              type="text" 
-              placeholder="enter username" 
-              className="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 border border-gray-600"
-            />
-            <input 
-              type="email" 
-              placeholder="enter email" 
-              className="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 border border-gray-600"
-            />
-            <input 
-              type="tel" 
-              placeholder="enter phone" 
-              className="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 border border-gray-600"
-            />
-            <input 
-              type="password" 
-              placeholder="enter password" 
-              className="w-full p-3 rounded-lg bg-gray-800 text-white placeholder-gray-400 border border-gray-600"
-            />
-  
-            <button 
-              type="submit" 
-              className="w-full py-3 bg-transparent border-2 bg-white  text-slate-950 hover: hover:bg-gray-100  rounded-lg font-semibold"
-            >
-              Sign Up
-            </button>
-            <button 
-              type="button" 
-              className="w-full py-3 border-2 border-white text-white hover:bg-gray-700 rounded-lg font-semibold mt-4"
-            >
-              Login
-            </button>
-          </form>
-          
-          <div className="flex items-center justify-center w-full mt-8">
-            <hr className="w-1/3 border-gray-600" />
-            <span className="mx-4 text-gray-300">Or</span>
-            <hr className="w-1/3 border-gray-600" />
-          </div>
-          
-          <button 
-            type="button" 
-            className="w-full py-3 flex items-center justify-center bg-white text-gray-700 hover:bg-gray-100 rounded-lg mt-4"
-          >
-            <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google Icon" className="mr-2" />
-            Sign up with Google
-          </button>
-        </div>
-      </div>
-    );
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission
+    console.log('Username:', username);
+    console.log('Email:', email);
+    console.log('Phone:', phone);
+    console.log('Password:', password);
   };
-  
+
+  return (
+    <div className="h-screen flex items-center justify-center">
+      <div className="bg-gray-900 p-8 rounded-lg shadow-md w-full max-w-lg"> {/* Increased width and decreased padding */}
+        <h2 className="text-2xl font-bold mb-4 text-center text-gray-100">Smart Guard Sign Up</h2> {/* Adjusted text size */}
+        <p className="text-center text-gray-300 mb-4">
+          Create an account to get started with Smart Guard.
+        </p>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="username" className="block text-sm font-medium text-gray-100">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              placeholder="Enter username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="mt-1 block w-full text-white bg-gray-700 px-4 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-100">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="mt-1 block w-full text-white bg-gray-700 px-4 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-100">
+              Phone
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              placeholder="Enter phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+              className="mt-1 block w-full text-white bg-gray-700 px-4 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-100">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="mt-1 block w-full text-white bg-gray-700 px-4 py-2 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 mb-4" >Sign Up</button>
+          <button
+            type="button"
+            onClick={()=>navigate('/Login')}
+            className="w-full py-2 px-4 text-white font-semibold rounded-md border-4 border-indigo-700 shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 mb-4" >Login</button>
+
+          <div className="text-center mb-4">
+            <span className="text-gray-300">or</span>
+          </div>
+          <button
+            type="button"
+            className="w-full py-2 px-4 text-gray-950 font-semibold rounded-md shadow-sm bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 flex items-center justify-center" ><img src="https://pngdow.com/files/preview/800x800/11722280805b4vi91domiophd87cjmnmwtjhyopqholatbnxkuahnxchtd6y9zusubuq8mgxlhi6kg2nmduczbhghtlyfrdsx0sitjn3ngget0q.png" className="h-6 mr-2"/>Sign Up with Google</button>
+        </form>
+      </div>
+    </div>
+  );
+};
