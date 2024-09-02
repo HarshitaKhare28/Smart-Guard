@@ -4,5 +4,10 @@
 
 
 body {
-  background-image: url('/images/bg.png');
+  
+  background-image: url('/images/bg1.jpg');
+  background-size: cover;       
+  background-position: center; 
+  background-repeat: no-repeat; 
+  min-height: 100vh;
 }
