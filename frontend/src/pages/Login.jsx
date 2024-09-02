@@ -37,7 +37,8 @@ export const Login = () => {
           CONTACT US
         </button>
       </div>
-      <div className='flex flex-row items-center justify-center w-full max-w-6xl z-10 gap-x-6 gap-y-0 mt-20 mx-auto'>
+      <div className='flex flex-row items-center justify-center w-full h-[500px] z-10 gap-x-1 gap-y-0 mt-20 mx-auto'>
+        <div className='w-full max-w-xs'></div>
         <div className="bg-customGrey p-8 rounded-lg shadow-md w-full max-w-sm h-auto max-h-sm z-10 ml-20" style={{ boxSizing: 'border-box' }}> {/* Increased width and decreased padding */}
           <h2 className="text-2xl font-bold mb-4 text-center text-customYellow">LOGIN</h2> {/* Adjusted text size */}
           <p className="text-center text-gray-300 mb-4">
@@ -104,12 +105,12 @@ export const Login = () => {
             </form>
           
           </div>
-          <div className='hidden md:block w-1/3 h-auto max-h-[100vh] overflow-hidden flex-shrink-0 p-0 mt-30'>
+          <div className='hidden md:block w-1/3 h-auto max-h-[100vh] overflow-hidden flex-shrink-0 p-2 p-x-4 ml-20 mt-30 '>
             <img
               src="images/guard.png"
               alt="guard"
               className="w-full h-auto object-contain"
-              style={{ maxWidth: '53%', maxHeight: '53%' }} 
+              style={{ maxWidth: '40%', maxHeight: '40%' }} 
             />
           </div>
         </div>
