@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Home() {
+export const Home=()=> {
   const [isModalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const openBlankPage = () => {
-    navigate('/blank');
+    navigate('/home/tracking');
   };
 
   const closeBlankPage = () => {
@@ -23,13 +23,6 @@ function Home() {
         />
         <h3 className="text-xl">Dashboard</h3>
       </div>
-
-      {/* <div className="fixed top-0 left-[250px] right-0 flex justify-end bg-[#2c2c2c] p-2.5 z-50">
-        <a href="/" className="text-white no-underline ml-5">HOME</a>
-        <a href="/" className="text-white no-underline ml-5">ABOUT US</a>
-        <a href="/" className="text-white no-underline ml-5">CONTACT US</a>
-      </div> */}
-
       <div className="flex-grow mt-[60px] mx-[150px] p-5">
         <div className="bg-[#333] p-5 rounded-lg text-center">
           <h2 className="text-2xl font-bold">Welcome back!</h2>
@@ -86,4 +79,3 @@ function Home() {
   );
 }
 
-export default Home;
