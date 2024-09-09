@@ -11,6 +11,8 @@ const handleSubmit = (e) => {
   // Handle form submission
   console.log('Email:', email);
   console.log('Password:', password);
+  alert("Login Successful");
+  navigate("/home");
 };
 
 return (
@@ -64,11 +66,6 @@ return (
             <button
             type="submit"
             className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mb-4" >Login</button>
-          <button
-            type="button"
-            onClick={() => navigate('/Signup')}
-            className="w-full py-2 px-4 text-white font-semibold rounded-md border-4 border-blue-700 shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 mb-4" >Sign Up</button>
-
           <div className="text-center mb-4">
             <span className="text-gray-300">or</span>
           </div>

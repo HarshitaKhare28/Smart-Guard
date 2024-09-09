@@ -1,12 +1,21 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const Home=()=> {
+export const Home = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const openBlankPage = () => {
-    navigate('/home/tracking');
+  // Functions to navigate to different pages
+  const openTrackingPage = () => {
+    navigate('/home/tracking'); // Live tracking page
+  };
+
+  const openMonthlyReportPage = () => {
+    navigate('/home/monthly-report'); // Monthly report page
+  };
+
+  const openSOSHistoryPage = () => {
+    navigate('/home/sos-history'); // SOS history page
   };
 
   const closeBlankPage = () => {
@@ -28,7 +37,7 @@ export const Home=()=> {
           <h2 className="text-2xl font-bold">Welcome back!</h2>
           <p className="mt-2">
             Your live location tracker is ready to help you monitor and manage
-            locations effortlessly. Lets ensure everything is running smoothly
+            locations effortlessly. {"Let's"} ensure everything is running smoothly
             and securely.
           </p>
         </div>
@@ -36,19 +45,19 @@ export const Home=()=> {
         <div className="flex justify-between mt-10">
           <div
             className="w-[30%] bg-[#333] p-[60px] rounded-lg text-center cursor-pointer transition duration-300 hover:bg-[#444]"
-            onClick={openBlankPage}
+            onClick={openTrackingPage}
           >
             <h3 className="text-xl font-semibold">LIVE TRACKING</h3>
           </div>
           <div
             className="w-[30%] bg-[#333] p-[60px] rounded-lg text-center cursor-pointer transition duration-300 hover:bg-[#444]"
-            onClick={openBlankPage}
+            onClick={openMonthlyReportPage}
           >
             <h3 className="text-xl font-semibold">MONTHLY REPORT</h3>
           </div>
           <div
             className="w-[30%] bg-[#333] p-[60px] rounded-lg text-center cursor-pointer transition duration-300 hover:bg-[#444]"
-            onClick={openBlankPage}
+            onClick={openSOSHistoryPage}
           >
             <h3 className="text-xl font-semibold">SOS HISTORY</h3>
           </div>
@@ -77,5 +86,4 @@ export const Home=()=> {
       )}
     </div>
   );
-}
-
+};

@@ -1,7 +1,8 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom"
-import {Signup} from "./pages/Signup";
 import {Login} from "./pages/Login";
 import {Home} from "./pages/Home";
+import {SOS_History} from "./pages/SOS_History";
+import {Monthly_Report} from "./pages/Monthly_Report";
 import {Navbar} from "./Components/Navbar";
 import {TrackingPage} from "./pages/TrackingPage";
 import './App.css'
@@ -14,10 +15,10 @@ function App() {
       <BrowserRouter>
       <Navbar/> 
     <Routes>
-      <Route path="/signup"element={<Signup/>}/>
       <Route path="/"element={<Login/>}/>
       <Route path="/home" element={<Home/>}/>
-     
+      <Route path="/home/sos-history" element={<SOS_History/>}/>
+      <Route path="/home/monthly-report" element={<Monthly_Report/>}/>
       <Route path="/home/tracking" element={<TrackingPage/>}/>
     </Routes>
   </BrowserRouter>

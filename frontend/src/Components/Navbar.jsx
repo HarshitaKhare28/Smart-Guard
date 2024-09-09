@@ -9,7 +9,7 @@ export const Navbar = () => {
             </div>
             <nav>
                 <ul className="flex gap-8 list-none">
-                <li>
+                    <li>
                         <NavLink
                             to="/home"
                             className="text-lg text-white font-bold hover:text-blue-200 hover:underline transition-colors duration-300"
@@ -34,19 +34,6 @@ export const Navbar = () => {
                         </NavLink>
                     </li>
                     <li className="flex items-center gap-2">
-                        <NavLink
-                            to="/signup"
-                            className="text-lg text-white font-bold hover:text-blue-200 hover:underline transition-colors duration-300"
-                        >
-                            SIGN UP
-                        </NavLink>
-                        <span className="text-white">|</span>
-                        <NavLink
-                            to="/"
-                            className="text-lg text-white font-bold hover:text-blue-200 hover:underline transition-colors duration-300"
-                        >
-                            LOGIN
-                        </NavLink>
                     </li>
                 </ul>
             </nav>
