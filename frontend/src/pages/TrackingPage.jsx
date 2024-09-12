@@ -83,7 +83,7 @@ export const TrackingPage = () => {
           title="Google Maps"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3766.7933128712025!2d73.14384077472471!3d19.247837546556426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7942873077383%3A0x9c09fe77e20babe5!2sBirla%20College%20Campus%20Rd%2C%20Gauripada%2C%20Kalyan%2C%20Maharashtra%20421301!5e0!3m2!1sen!2sin!4v1715772514908!5m2!1sen!2sin"
           width="99%"
-          height="99%"
+          height="100%"
           style={{ border: 0 }}
           allowFullScreen=""
           loading="lazy"
