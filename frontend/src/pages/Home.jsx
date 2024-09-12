@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaFileAlt, FaExclamationCircle, FaCog } from 'react-icons/fa';
 
 export const Home = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -23,46 +24,81 @@ export const Home = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-[#1e1e1e] text-white">
-      <div className="w-[280px] bg-[#2c2c2c] flex flex-col items-center pt-5 border-2 border-[#fefefe]">
-        <img
-          src="/images/profile.png"
-          alt="Profile"
-          className="w-[100px] h-[100px] rounded-full mb-5"
-        />
-        <h3 className="text-xl">Dashboard</h3>
+    <div className="min-h-screen flex bg-[#1A1B1C] text-white">
+      <aside className="w-[290px] bg-[#2c2c2c] flex flex-col items-center py-6 border-r border-gray-700">
+        <div className="w-[250px] bg-[#3C4350] p-6 rounded-lg shadow-lg text-center">
+          <img
+            src="/images/profile.png"
+            alt="Profile"
+            className="w-[110px] h-[110px] rounded-full mb-3 shadow-lg mx-auto"
+          />
+          <h3 className="text-2xl font-bold mb-1 font-serif">Maenous Troat</h3>
+        </div>
+        <div className="flex justify-center items-center mb-2">
+     <img src="./images/heroicons-solid_status-online.png" alt="Online Status" className="w-6 h-6 mr-2" />
+     <p className="text-green-400 text-lg">Online</p>
+   </div>
+      <div className="w-full mt-8">
+        <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer border-b border-gray-600">
+          <FaFileAlt className="mr-3 text-xl" />
+          <span className="text-lg">Updates</span>
+        </div>
+        <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer border-b border-gray-600">
+          <FaExclamationCircle className="mr-3 text-xl" />
+          <span className="text-lg">Emergency</span>
+        </div>
+        <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer">
+          <FaCog className="mr-3 text-xl" />
+          <span className="text-lg">Settings</span>
+       </div>
       </div>
-      <div className="flex-grow mt-[60px] mx-[150px] p-5">
-        <div className="bg-[#333] p-5 rounded-lg text-center">
-          <h2 className="text-2xl font-bold">Welcome back!</h2>
-          <p className="mt-2">
-            Your live location tracker is ready to help you monitor and manage
-            locations effortlessly. {"Let's"} ensure everything is running smoothly
-            and securely.
-          </p>
+      <div className="mt-auto w-full px-5">
+           <div className="text-sm text-gray-400 mb-2">About Us</div>
+           <div className="text-sm text-gray-400 mb-2">{"What's"} New</div>
+           <div className="text-sm text-gray-400 mb-4">Olivia Rhye</div>
+          <div className="text-sm text-gray-400 mb-4">olivia@untitledui.com</div>
+        </div>
+      </aside>
+    
+      <main className="flex-grow p-10">
+        {/* Welcome message */}
+        <div className="bg-[#18191B] border border-white p-6 rounded-lg mt-6 flex items-center">
+          <img src="/images/Vector.png" alt="Welcome Icon" className="w-10 h-10 mr-3" />
+          <div>
+            <h2 className="text-3xl font-bold">Welcome back!</h2>
+            <p className="mt-2 text-lg">
+              Your live location tracker is ready to help you monitor and manage
+              locations effortlessly. {"Let's"} ensure everything is running smoothly
+              and securely.
+            </p>
+          </div>
         </div>
 
-        <div className="flex justify-between mt-10">
+        {/* Action Buttons */}
+        <div className="grid grid-cols-3 gap-6 mt-8">
           <div
-            className="w-[30%] bg-[#333] p-[60px] rounded-lg text-center cursor-pointer transition duration-300 hover:bg-[#444]"
+            className="bg-[#333] p-6 rounded-lg text-center cursor-pointer hover:bg-[#444] transition duration-300"
             onClick={openTrackingPage}
           >
-            <h3 className="text-xl font-semibold">LIVE TRACKING</h3>
+            <img src="/images/Frame 2051.png" alt="Live Tracking" className="w-20 h-20 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold">LIVE TRACKING</h3>
           </div>
           <div
-            className="w-[30%] bg-[#333] p-[60px] rounded-lg text-center cursor-pointer transition duration-300 hover:bg-[#444]"
+            className="bg-[#333] p-6 rounded-lg text-center cursor-pointer hover:bg-[#444] transition duration-300"
             onClick={openMonthlyReportPage}
           >
-            <h3 className="text-xl font-semibold">MONTHLY REPORT</h3>
+            <img src="/images/Frame 2050.png" alt="Monthly Report" className="w-20 h-20 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold">MONTHLY REPORT</h3>
           </div>
           <div
-            className="w-[30%] bg-[#333] p-[60px] rounded-lg text-center cursor-pointer transition duration-300 hover:bg-[#444]"
+            className="bg-[#333] p-6 rounded-lg text-center cursor-pointer hover:bg-[#444] transition duration-300"
             onClick={openSOSHistoryPage}
           >
-            <h3 className="text-xl font-semibold">SOS HISTORY</h3>
+            <img src="/images/Frame 2052.png" alt="SOS History" className="w-20 h-20 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold">SOS HISTORY</h3>
           </div>
         </div>
-      </div>
+      </main>
 
       {/* Modal for blank page */}
       {isModalOpen && (
