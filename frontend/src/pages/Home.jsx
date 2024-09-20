@@ -32,7 +32,7 @@ export const Home = () => {
             alt="Profile"
             className="w-[110px] h-[110px] rounded-full mb-3 shadow-lg mx-auto"
           />
-          <h3 className="text-2xl font-bold mb-1 font-serif">Maenous Troat</h3>
+          <h3 className="text-2xl font-bold mb-1 font-serif">Marnous Troat</h3>
         </div>
         <div className="flex justify-center items-center mb-2">
      <img src="./images/heroicons-solid_status-online.png" alt="Online Status" className="w-6 h-6 mr-2" />
