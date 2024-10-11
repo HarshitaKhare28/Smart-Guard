@@ -35,9 +35,11 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 export const Monthly_Report = () => {
   const [guardDistances, setGuardDistances] = useState({});
   const [loading, setLoading] = useState(true);
+  const [selectedGuard, setSelectedGuard] = useState(null); // State to track selected guard
+
+  const guardIds = ["object1", "object2", "object3", "object4", "object5"]; // Guard list
 
   useEffect(() => {
-    const guardIds = ["object1", "object2", "object3", "object4", "object5"];
     const distances = {};
     let completedListeners = 0;
 
@@ -80,29 +82,56 @@ export const Monthly_Report = () => {
     };
   }, []);
 
+  const handleGuardSelection = (guardId) => {
+    setSelectedGuard(guardId); // Set the selected guard when clicked
+  };
+
   return (
-    <div className="min-h-screen flex bg-[#1A1B1C] text-white">
-      <aside className="w-[290px] bg-[#2c2c2c] flex flex-col items-center py-6 border-r border-gray-700">
-        <div className="w-[250px] bg-[#3C4350] p-6 rounded-lg shadow-lg text-center">
-          <h2 className="text-2xl font-bold mb-4 font-serif">Monthly Reports</h2>
+    <div className="min-h-screen flex bg-gray-900 text-white">
+      {/* Sidebar */}
+      <aside className="w-72 bg-gray-800 p-6 border-r border-gray-700 flex flex-col items-center">
+        <div className="w-full bg-gray-700 py-4 px-6 rounded-lg text-center mb-6">
+          <h2 className="text-2xl font-bold font-serif text-white">Guards</h2>
+        </div>
+
+        {/* List of Guard Buttons */}
+        <div className="w-full space-y-4">
+          {guardIds.map((guardId) => (
+            <button
+              key={guardId}
+              onClick={() => handleGuardSelection(guardId)}
+              className={`w-full py-3 px-4 rounded-md transition-colors ${
+                selectedGuard === guardId
+                  ? "bg-blue-600 hover:bg-blue-700"
+                  : "bg-gray-700 hover:bg-gray-600"
+              } text-white font-semibold focus:outline-none`}
+            >
+              {guardId.replace("object", "Guard ")} {/* Example: Guard 1 */}
+            </button>
+          ))}
         </div>
       </aside>
 
+      {/* Main Content */}
       <main className="flex-grow p-10">
-        {/* Monthly Report Section */}
-        <div className="bg-[#18191B] border border-white p-6 rounded-lg mt-6">
-          <h2 className="text-3xl font-bold text-center">Distance Travelled by Guards</h2>
+        <div className="bg-gray-800 border border-gray-700 p-8 rounded-lg shadow-lg">
+          <h2 className="text-3xl font-bold text-center mb-6">
+            {selectedGuard
+              ? `Distance Travelled by ${selectedGuard.replace("object", "Guard ")}`
+              : "Select a Guard to View Report"}
+          </h2>
           {loading ? (
-            <p className="text-lg text-red-600 text-center mt-4">Loading distances...</p>
+            <p className="text-lg text-red-400 text-center">Loading distances...</p>
           ) : (
-            <div className="mt-4">
-              {Object.entries(guardDistances).map(([guardId, distance]) => (
-                <p key={guardId} className="text-lg text-blue-600 text-center mt-2">
-                  The total distance travelled by {guardId} is:{" "}
-                  <strong>{distance} km</strong>
+            selectedGuard && (
+              <div className="mt-6">
+                <p className="text-xl text-center text-blue-400">
+                  The total distance travelled by{" "}
+                  {selectedGuard.replace("object", "Guard ")} is:{" "}
+                  <strong>{guardDistances[selectedGuard] || 0} km</strong>
                 </p>
-              ))}
-            </div>
+              </div>
+            )
           )}
         </div>
       </main>
