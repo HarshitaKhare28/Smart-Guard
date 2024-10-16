@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue } from "firebase/database";
+import jsPDF from "jspdf";
+import "jspdf-autotable"; // Optional if you want table support
 
 // Firebase configuration
 const firebaseConfig = {
@@ -17,7 +19,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Helper function to calculate the distance between two coordinates using Haversine formula
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371; // Radius of the Earth in kilometers
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -86,6 +87,30 @@ export const Monthly_Report = () => {
     setSelectedGuard(guardId); // Set the selected guard when clicked
   };
 
+  // Function to generate and download the PDF
+  const downloadPDF = () => {
+    if (selectedGuard) {
+      const doc = new jsPDF();
+      doc.setFontSize(20);
+      doc.text(
+        `Distance Report for ${selectedGuard.replace("object", "Guard ")}`,
+        10,
+        10
+      );
+      doc.setFontSize(12);
+      doc.text(
+        `The total distance travelled by ${selectedGuard.replace("object", "Guard ")} is: ${
+          guardDistances[selectedGuard] || 0
+        } km.`,
+        10,
+        20
+      );
+      doc.save(`${selectedGuard}_report.pdf`);
+    } else {
+      alert("Please select a guard to download the report");
+    }
+  };
+
   return (
     <div className="min-h-screen flex bg-gray-900 text-white">
       {/* Sidebar */}
@@ -130,6 +155,16 @@ export const Monthly_Report = () => {
                   {selectedGuard.replace("object", "Guard ")} is:{" "}
                   <strong>{guardDistances[selectedGuard] || 0} km</strong>
                 </p>
+
+                {/* Button to download PDF */}
+                <div className="mt-6 text-center">
+                  <button
+                    onClick={downloadPDF}
+                    className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg"
+                  >
+                    Download PDF Report
+                  </button>
+                </div>
               </div>
             )
           )}
