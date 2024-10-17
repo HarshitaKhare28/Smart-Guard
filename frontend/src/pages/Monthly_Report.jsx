@@ -19,6 +19,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
+// Helper function to calculate distance between two coordinates
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371; // Radius of the Earth in kilometers
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -33,61 +34,81 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
   return distance;
 };
 
+// Helper function to format the total time spent in hours and minutes
+const formatDuration = (totalMilliseconds) => {
+  const totalSeconds = Math.floor(totalMilliseconds / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  return `${hours} hour(s) and ${minutes} minute(s)`;
+};
+
 export const Monthly_Report = () => {
   const [guardDistances, setGuardDistances] = useState({});
+  const [guardTimes, setGuardTimes] = useState({}); // State to track total time spent
   const [loading, setLoading] = useState(true);
   const [selectedGuard, setSelectedGuard] = useState(null); // State to track selected guard
 
-  const guardIds = ["object1", "object2", "object3", "object4", "object5"]; // Guard list
+  const guardIds = ["object1", "object2", "object3", "object4", "object5"]; // List of guards
+  const fixedInterval = 2 * 1000; // 2 seconds in milliseconds (fixed interval between location updates)
 
   useEffect(() => {
     const distances = {};
+    const times = {};
     let completedListeners = 0;
 
+    // Set up listeners for each guard
     const unsubscribeListeners = guardIds.map((guardId) => {
       const dbRef = ref(database, `gpsData/${guardId}`);
-      console.log(`Setting up listener for ${guardId}`);
-
       return onValue(dbRef, (snapshot) => {
         if (snapshot.exists()) {
           const data = snapshot.val();
-          console.log(`Data fetched for ${guardId}:`, data);
+          console.log('Fetched Data for', guardId, ':', data); // Log the fetched data
           const points = Object.values(data);
-          console.log(`Points for ${guardId}:`, points);
 
           let distance = 0;
 
+          // Loop through the points and calculate distances between them
           for (let i = 0; i < points.length - 1; i++) {
             const { latitude: lat1, longitude: lon1 } = points[i];
             const { latitude: lat2, longitude: lon2 } = points[i + 1];
+
+            // Calculate distance between consecutive points
             distance += calculateDistance(lat1, lon1, lat2, lon2);
           }
 
           distances[guardId] = distance.toFixed(2);
-          console.log(`Total distance for ${guardId}: ${distances[guardId]} km`);
+          console.log(`Calculated distance for ${guardId}:`, distances[guardId]);
+
+          // Calculate total time spent based on the number of points (interval of 2 seconds)
+          const totalTime = (points.length - 1) * fixedInterval; // (points - 1) intervals of 2 seconds each
+          times[guardId] = totalTime; // Store total time in milliseconds
+          console.log(`Total time for ${guardId}:`, times[guardId], 'milliseconds');
+
         } else {
-          console.log(`No data available for ${guardId}`);
           distances[guardId] = 0;
+          times[guardId] = 0;
         }
 
         completedListeners++;
         if (completedListeners === guardIds.length) {
           setGuardDistances(distances);
+          setGuardTimes(times); // Set guard times to state
           setLoading(false);
         }
       });
     });
 
+    // Cleanup listeners when component unmounts
     return () => {
       unsubscribeListeners.forEach((unsubscribe) => unsubscribe());
     };
-  }, []);
+  }, [guardIds]);
 
   const handleGuardSelection = (guardId) => {
     setSelectedGuard(guardId); // Set the selected guard when clicked
   };
 
-  // Function to generate and download the PDF
+  // Function to generate and download the PDF report for the selected guard
   const downloadPDF = () => {
     if (selectedGuard) {
       const doc = new jsPDF();
@@ -105,6 +126,14 @@ export const Monthly_Report = () => {
         10,
         20
       );
+
+      const totalTime = guardTimes[selectedGuard] || 0;
+      doc.text(
+        `Total time spent on duty: ${formatDuration(totalTime)}`,
+        10,
+        30
+      );
+
       doc.save(`${selectedGuard}_report.pdf`);
     } else {
       alert("Please select a guard to download the report");
@@ -154,6 +183,10 @@ export const Monthly_Report = () => {
                   The total distance travelled by{" "}
                   {selectedGuard.replace("object", "Guard ")} is:{" "}
                   <strong>{guardDistances[selectedGuard] || 0} km</strong>
+                </p>
+                <p className="text-xl text-center text-blue-400">
+                  Total time spent on duty:{" "}
+                  <strong>{formatDuration(guardTimes[selectedGuard] || 0)}</strong>
                 </p>
 
                 {/* Button to download PDF */}

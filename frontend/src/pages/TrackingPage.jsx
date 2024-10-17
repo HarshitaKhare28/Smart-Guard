@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, get } from "firebase/database";
 
-// Firebase configuration
+
 const firebaseConfig = {
   apiKey: "AIzaSyCTaZbS-O22qAdOsj21aaDNW87M5t_JDb8",
   authDomain: "live-location-tracking-ab4c4.firebaseapp.com",
@@ -15,7 +15,6 @@ const firebaseConfig = {
   measurementId: "G-LSVHWXB5NC",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
