@@ -52,7 +52,7 @@ const isInsideGeofence = (lat, lon, geofence) => {
 const calculateSpeed = (distance, time) => {
   if (time > 0) {
     // Speed in km/h
-    return (distance / (time / (1000 * 60 * 60))).toFixed(2); // Convert time to hours
+    return (distance / (time / (100 * 60 * 60))).toFixed(2); // Convert time to hours
   }
   return 0;
 };
