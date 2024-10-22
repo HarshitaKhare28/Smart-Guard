@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue } from "firebase/database";
 import jsPDF from "jspdf";
-import "jspdf-autotable"; // Optional if you want table support
+import "jspdf-autotable";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -15,17 +15,14 @@ const firebaseConfig = {
   measurementId: "G-LSVHWXB5NC",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Constants for geofence and intervals
-const GEO_RADIUS_KM = 190; // 190 km radius
-const FIXED_INTERVAL_MS = 2000; // 2 seconds in milliseconds
+const GEO_RADIUS_KM = 190; 
+const FIXED_INTERVAL_MS = 2000; 
 
-// Helper functions
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
-  const R = 6371; // Radius of the Earth in kilometers
+  const R = 6371;
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLon = ((lon2 - lon1) * Math.PI) / 180;
   const a =
@@ -34,7 +31,7 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
       Math.cos((lat2 * Math.PI) / 180) *
       Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c; // Distance in kilometers
+  return R * c;
 };
 
 const formatDuration = (totalMilliseconds) => {
@@ -48,20 +45,17 @@ const isInsideGeofence = (lat, lon, geofence) => {
   return calculateDistance(geofence.latitude, geofence.longitude, lat, lon) <= geofence.radius;
 };
 
-// Function to calculate speed
 const calculateSpeed = (distance, time) => {
   if (time > 0) {
-    // Speed in km/h
-    return (distance / (time / (100 * 60 * 60))).toFixed(2); // Convert time to hours
+    return (distance / (time / (100 * 60 * 60))).toFixed(2);
   }
   return 0;
 };
 
-// Component
 export const Monthly_Report = () => {
   const [guardDistances, setGuardDistances] = useState({});
   const [guardTimes, setGuardTimes] = useState({});
-  const [guardSpeeds, setGuardSpeeds] = useState({}); // Add a state for speeds
+  const [guardSpeeds, setGuardSpeeds] = useState({});
   const [geofenceCompliance, setGeofenceCompliance] = useState({});
   const [loading, setLoading] = useState(true);
   const [selectedGuard, setSelectedGuard] = useState(null);
@@ -72,7 +66,7 @@ export const Monthly_Report = () => {
   useEffect(() => {
     const distances = {};
     const times = {};
-    const speeds = {}; // Object to store speeds
+    const speeds = {};
     const compliance = {};
     let completedListeners = 0;
 
@@ -109,12 +103,11 @@ export const Monthly_Report = () => {
           times[guardId] = (points.length - 1) * FIXED_INTERVAL_MS;
           compliance[guardId] = { entries, exits };
 
-          // Calculate speed
-          speeds[guardId] = calculateSpeed(distance, times[guardId]); // Calculate and store speed
+          speeds[guardId] = calculateSpeed(distance, times[guardId]);
         } else {
           distances[guardId] = 0;
           times[guardId] = 0;
-          speeds[guardId] = 0; // Set speed to 0
+          speeds[guardId] = 0;
           compliance[guardId] = { entries: 0, exits: 0 };
         }
 
@@ -122,7 +115,7 @@ export const Monthly_Report = () => {
         if (completedListeners === guardIds.length) {
           setGuardDistances(distances);
           setGuardTimes(times);
-          setGuardSpeeds(speeds); // Set speeds in state
+          setGuardSpeeds(speeds);
           setGeofenceCompliance(compliance);
           setLoading(false);
         }
@@ -148,7 +141,7 @@ export const Monthly_Report = () => {
       doc.setFontSize(12);
       doc.text(`The total distance travelled by ${selectedGuard.replace("object", "Guard ")} is: ${guardDistances[selectedGuard] || 0} km.`, 10, 20);
       doc.text(`Total time spent on duty: ${formatDuration(guardTimes[selectedGuard] || 0)}`, 10, 30);
-      doc.text(`Speed: ${guardSpeeds[selectedGuard] || 0} km/h`, 10, 40); // Add speed to PDF
+      doc.text(`Speed: ${guardSpeeds[selectedGuard] || 0} km/h`, 10, 40);
       doc.text(`Geofence Compliance: Entries: ${geofenceCompliance[selectedGuard]?.entries || 0}, Exits: ${geofenceCompliance[selectedGuard]?.exits || 0}`, 10, 50);
       doc.save(`${selectedGuard}_report.pdf`);
     } else {
@@ -157,17 +150,17 @@ export const Monthly_Report = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-900 text-white">
-      <aside className="w-72 bg-gray-800 p-6 border-r border-gray-700 flex flex-col items-center">
-        <div className="w-full bg-gray-700 py-4 px-6 rounded-lg text-center mb-6">
-          <h2 className="text-2xl font-bold font-serif text-white">Guards</h2>
+    <div className="min-h-screen flex bg-[#18191B] text-white">
+      <aside className="w-72 bg-[#333] p-6 border-r border-[#444] flex flex-col items-center">
+        <div className="w-full bg-[#444] py-4 px-6 rounded-lg text-center mb-6">
+          <h2 className="text-2xl font-bold font-serif">Guards</h2>
         </div>
         <div className="w-full space-y-4">
           {guardIds.map((guardId) => (
             <button
               key={guardId}
               onClick={() => handleGuardSelection(guardId)}
-              className={`w-full py-3 px-4 rounded-md transition-colors ${selectedGuard === guardId ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-700 hover:bg-gray-600"} text-white font-semibold focus:outline-none`}
+              className={`w-full py-3 px-4 rounded-md transition-all ${selectedGuard === guardId ? "bg-blue-600 hover:bg-blue-700" : "bg-[#444] hover:bg-[#555]"} font-semibold focus:outline-none`}
             >
               {guardId.replace("object", "Guard ")}
             </button>
@@ -175,7 +168,7 @@ export const Monthly_Report = () => {
         </div>
       </aside>
       <main className="flex-grow p-10">
-        <div className="bg-gray-800 border border-gray-700 p-8 rounded-lg shadow-lg">
+        <div className="bg-[#333] p-8 rounded-lg shadow-lg">
           <h2 className="text-3xl font-bold text-center mb-6">
             {selectedGuard ? `Distance Travelled by ${selectedGuard.replace("object", "Guard ")}` : "Select a Guard to View Report"}
           </h2>
@@ -185,16 +178,20 @@ export const Monthly_Report = () => {
             <div>
               <p>Total Distance: {guardDistances[selectedGuard] || 0} km</p>
               <p>Total Time: {formatDuration(guardTimes[selectedGuard] || 0)}</p>
-              <p>Speed: {guardSpeeds[selectedGuard] || 0} km/h</p> {/* Display speed */}
+              <p>Speed: {guardSpeeds[selectedGuard] || 0} km/h</p>
               <p>Geofence Compliance: Entries: {geofenceCompliance[selectedGuard]?.entries || 0}, Exits: {geofenceCompliance[selectedGuard]?.exits || 0}</p>
-              <button
-                onClick={downloadPDF}
-                className="mt-4 py-2 px-4 bg-blue-600 rounded-md text-white hover:bg-blue-700 focus:outline-none"
-              >
-                Download PDF
-              </button>
             </div>
-          ) : null}
+          ) : (
+            <p>Please select a guard to see the details</p>
+          )}
+        </div>
+        <div className="mt-8 text-center">
+          <button
+            onClick={downloadPDF}
+            className="bg-blue-600 hover:bg-blue-700 py-3 px-6 rounded-lg text-white font-semibold transition-all"
+          >
+            Download PDF Report
+          </button>
         </div>
       </main>
     </div>
