@@ -29,14 +29,6 @@ export const Navbar = () => {
                             ABOUT US
                         </NavLink>
                     </li>
-                    <li>
-                        <NavLink
-                            to="/contact"
-                            className="text-lg text-white font-bold hover:text-blue-200 hover:underline transition-colors duration-300"
-                        >
-                            CONTACT US
-                        </NavLink>
-                    </li>
                 </ul>
             </nav>
         </div>

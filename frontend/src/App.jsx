@@ -1,5 +1,6 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import {Login} from "./pages/Login";
+import {About} from "./pages/About";
 import {Home} from "./pages/Home";
 import {SOS_History} from "./pages/SOS_History";
 import {Monthly_Report} from "./pages/Monthly_Report";
@@ -20,6 +21,7 @@ function App() {
       <Route path="/home/sos-history" element={<SOS_History/>}/>
       <Route path="/home/monthly-report" element={<Monthly_Report/>}/>
       <Route path="/home/tracking" element={<TrackingPage/>}/>
+      <Route path="/about" element={<About/>}/>
     </Routes>
   </BrowserRouter>
     </>
