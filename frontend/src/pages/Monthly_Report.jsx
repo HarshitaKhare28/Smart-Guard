@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue } from "firebase/database";
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS,  CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+ChartJS.register( CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
@@ -52,11 +55,44 @@ const calculateSpeed = (distance, time) => {
   return 0;
 };
 
+// New Function to Calculate Guard's Performance Rating
+const calculatePerformanceRating = (guardId, distance, time, compliance) => {
+  let score = 0;
+
+  // Distance traveled evaluation (up to 40 points)
+  if (distance >= 5) {
+    score += 40; 
+  } else {
+    score += (distance / 5) * 40;
+  }
+
+  // Punctuality/Time on Duty (up to 30 points)
+  const totalHours = time / (1000 * 60 * 60);
+  if (totalHours >= 8) {
+    score += 30; 
+  } else {
+    score += (totalHours / 8) * 30;
+  }
+
+  // Compliance with Geofence (up to 30 points)
+  const { entries, exits } = compliance;
+  if (entries === 0 && exits === 0) {
+    score += 30; 
+  } else if (entries === exits) {
+    score += 20; 
+  } else {
+    score += 10; 
+  }
+
+  return score.toFixed(2);
+};
+
 export const Monthly_Report = () => {
   const [guardDistances, setGuardDistances] = useState({});
   const [guardTimes, setGuardTimes] = useState({});
   const [guardSpeeds, setGuardSpeeds] = useState({});
   const [geofenceCompliance, setGeofenceCompliance] = useState({});
+  const [guardRatings, setGuardRatings] = useState({});
   const [loading, setLoading] = useState(true);
   const [selectedGuard, setSelectedGuard] = useState(null);
 
@@ -68,6 +104,7 @@ export const Monthly_Report = () => {
     const times = {};
     const speeds = {};
     const compliance = {};
+    const ratings = {};
     let completedListeners = 0;
 
     const unsubscribeListeners = guardIds.map((guardId) => {
@@ -104,11 +141,15 @@ export const Monthly_Report = () => {
           compliance[guardId] = { entries, exits };
 
           speeds[guardId] = calculateSpeed(distance, times[guardId]);
+
+          // Calculate Performance Rating for the Guard
+          ratings[guardId] = calculatePerformanceRating(guardId, distances[guardId], times[guardId], compliance[guardId]);
         } else {
           distances[guardId] = 0;
           times[guardId] = 0;
           speeds[guardId] = 0;
           compliance[guardId] = { entries: 0, exits: 0 };
+          ratings[guardId] = 0;
         }
 
         completedListeners++;
@@ -117,6 +158,7 @@ export const Monthly_Report = () => {
           setGuardTimes(times);
           setGuardSpeeds(speeds);
           setGeofenceCompliance(compliance);
+          setGuardRatings(ratings);
           setLoading(false);
         }
       }, (error) => {
@@ -143,12 +185,38 @@ export const Monthly_Report = () => {
       doc.text(`Total time spent on duty: ${formatDuration(guardTimes[selectedGuard] || 0)}`, 10, 30);
       doc.text(`Speed: ${guardSpeeds[selectedGuard] || 0} km/h`, 10, 40);
       doc.text(`Geofence Compliance: Entries: ${geofenceCompliance[selectedGuard]?.entries || 0}, Exits: ${geofenceCompliance[selectedGuard]?.exits || 0}`, 10, 50);
+      doc.text(`Performance Rating: ${guardRatings[selectedGuard] || 0}/100`, 10, 60);
       doc.save(`${selectedGuard}_report.pdf`);
     } else {
       alert("Please select a guard to download the report");
     }
   };
-
+  const chartData = {
+    labels: guardIds.map(id => id.replace("object", "Guard ")),
+    datasets: [
+      {
+        label: "Distance Traveled (km)",
+        data: guardIds.map(id => guardDistances[id] || 0),
+        backgroundColor: "rgba(75, 192, 192, 0.5)",
+        borderColor: "rgb(75, 192, 192)",
+        borderWidth: 1,
+      },
+      {
+        label: "Time on Duty (hours)",
+        data: guardIds.map(id => ((guardTimes[id] || 0) / (1000 * 60 * 60)).toFixed(2)),
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        borderColor: "rgb(255, 99, 132)",
+        borderWidth: 1,
+      },
+      {
+        label: "Speed (km/h)",
+        data: guardIds.map(id => guardSpeeds[id] || 0),
+        backgroundColor: "rgba(54, 162, 235, 0.5)",
+        borderColor: "rgb(54, 162, 235)",
+        borderWidth: 1,
+      },
+    ],
+  };
   return (
     <div className="min-h-screen flex bg-[#18191B] text-white">
       <aside className="w-72 bg-[#333] p-6 border-r border-[#444] flex flex-col items-center">
@@ -180,10 +248,15 @@ export const Monthly_Report = () => {
               <p>Total Time: {formatDuration(guardTimes[selectedGuard] || 0)}</p>
               <p>Speed: {guardSpeeds[selectedGuard] || 0} km/h</p>
               <p>Geofence Compliance: Entries: {geofenceCompliance[selectedGuard]?.entries || 0}, Exits: {geofenceCompliance[selectedGuard]?.exits || 0}</p>
+              <p>Performance Rating: {guardRatings[selectedGuard]}/100</p>
             </div>
           ) : (
             <p>Please select a guard to see the details</p>
           )}
+        </div>
+        <div className="mt-8 bg-[#333] p-8 rounded-lg shadow-lg" style={{ height: "400px", width: "600px" }}>
+          <h2 className="text-2xl font-bold text-center mb-4">Guard Data Visualizations</h2>
+          <Bar data={chartData} />
         </div>
         <div className="mt-8 text-center">
           <button
