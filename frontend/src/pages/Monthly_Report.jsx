@@ -251,23 +251,33 @@ export const Monthly_Report = () => {
               <p>Speed: {guardSpeeds[selectedGuard] || 0} km/h</p>
               <p>Geofence Compliance: Entries: {geofenceCompliance[selectedGuard]?.entries || 0}, Exits: {geofenceCompliance[selectedGuard]?.exits || 0}</p>
               <p>Performance Rating: {guardRatings[selectedGuard]}/100</p>
+              <div className="mt-8 bg-[#333] p-8 rounded-lg shadow-lg" style={{ height: "400px", width: "600px" }}>
+                <h2 className="text-2xl font-bold text-center mb-4">Guard Data Visualizations</h2>
+                <Bar data={chartData} />
+              </div>
+              <div className="mt-8 text-center">
+                <button
+                  onClick={downloadPDF}
+                  className="bg-blue-600 hover:bg-blue-700 py-3 px-6 rounded-lg text-white font-semibold transition-all"
+                >
+                  Download PDF Report
+                </button>
+              </div>
             </div>
+            
           ) : (
             <p>Please select a guard to see the details</p>
           )}
         </div>
-        <div className="mt-8 bg-[#333] p-8 rounded-lg shadow-lg" style={{ height: "400px", width: "600px" }}>
-          <h2 className="text-2xl font-bold text-center mb-4">Guard Data Visualizations</h2>
-          <Bar data={chartData} />
-        </div>
-        <div className="mt-8 text-center">
+        
+        {/* <div className="mt-8 text-center">
           <button
             onClick={downloadPDF}
             className="bg-blue-600 hover:bg-blue-700 py-3 px-6 rounded-lg text-white font-semibold transition-all"
           >
             Download PDF Report
           </button>
-        </div>
+        </div> */}
       </main>
     </div>
   );
