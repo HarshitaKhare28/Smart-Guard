@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaFileAlt, FaExclamationCircle, FaCog } from 'react-icons/fa';
+import { FaFileAlt, FaExclamationCircle, FaCog, FaSignOutAlt } from 'react-icons/fa'; // Import FaSignOutAlt for logout icon
 
 export const Home = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -19,6 +19,10 @@ export const Home = () => {
     navigate('/home/sos-history'); // SOS history page
   };
 
+  const handleLogout = () => {
+    navigate('/'); // Redirect to login page
+  };
+
   const closeBlankPage = () => {
     setModalOpen(false);
   };
@@ -35,31 +39,36 @@ export const Home = () => {
           <h3 className="text-2xl font-bold mb-1 font-serif">Marnous Troat</h3>
         </div>
         <div className="flex justify-center items-center mb-2">
-     <img src="./images/heroicons-solid_status-online.png" alt="Online Status" className="w-6 h-6 mr-2" />
-     <p className="text-green-400 text-lg">Online</p>
-   </div>
-      <div className="w-full mt-8">
-        <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer border-b border-gray-600">
-          <FaFileAlt className="mr-3 text-xl" />
-          <span className="text-lg">Updates</span>
+          <img src="./images/heroicons-solid_status-online.png" alt="Online Status" className="w-6 h-6 mr-2" />
+          <p className="text-green-400 text-lg">Online</p>
         </div>
-        <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer border-b border-gray-600">
-          <FaExclamationCircle className="mr-3 text-xl" />
-          <span className="text-lg">Emergency</span>
+        <div className="w-full mt-8">
+          <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer border-b border-gray-600">
+            <FaFileAlt className="mr-3 text-xl" />
+            <span className="text-lg">Updates</span>
+          </div>
+          <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer border-b border-gray-600">
+            <FaExclamationCircle className="mr-3 text-xl" />
+            <span className="text-lg">Emergency</span>
+          </div>
+          <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer">
+            <FaCog className="mr-3 text-xl" />
+            <span className="text-lg">Settings</span>
+          </div>
+          {/* Logout button */}
+          <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer mt-1 border-t border-gray-600" onClick={handleLogout}>
+            <FaSignOutAlt className="mr-3 text-xl" />
+            <span className="text-lg">Logout</span>
+          </div>
         </div>
-        <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer">
-          <FaCog className="mr-3 text-xl" />
-          <span className="text-lg">Settings</span>
-       </div>
-      </div>
-      <div className="mt-auto w-full px-5">
-           <div className="text-sm text-gray-400 mb-2">About Us</div>
-           <div className="text-sm text-gray-400 mb-2">{"What's"} New</div>
-           <div className="text-sm text-gray-400 mb-4">Olivia Rhye</div>
+        <div className="mt-auto w-full px-5">
+          <div className="text-sm text-gray-400 mb-2">About Us</div>
+          <div className="text-sm text-gray-400 mb-2">{"What's"} New</div>
+          <div className="text-sm text-gray-400 mb-4">Olivia Rhye</div>
           <div className="text-sm text-gray-400 mb-4">olivia@untitledui.com</div>
         </div>
       </aside>
-    
+
       <main className="flex-grow p-10">
         {/* Welcome message */}
         <div className="bg-[#18191B] border border-white p-6 rounded-lg mt-6 flex items-center">

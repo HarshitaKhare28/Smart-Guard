@@ -38,7 +38,7 @@ export const TrackingPage = () => {
   useEffect(() => {
     if (!mapRef.current) {
       // Initialize the map only once
-      const map = L.map("map").setView([21.17663489751668, 79.06155360403324], 18); // Default center
+      const map = L.map("map").setView([21.17663489751668, 79.06155360403324], 20); // Default center
       mapRef.current = map;
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -155,19 +155,7 @@ export const TrackingPage = () => {
               <p className="text-sm">username@example.com</p>
             </div>
           </div>
-          <div className="flex items-center mt-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="white"
-              width="24"
-              height="24"
-              className="mr-2"
-            >
-              <path d="M14 2v10.586l-3.293-3.293-1.414 1.414L14 15.414l5.707-5.707-1.414-1.414L14 12.586V2h-2zm-6 18v-2h12v2H8zm12-4H8v-2h12v2z" />
-            </svg>
-            <button className="text-sm text-red-600">Logout</button>
-          </div>
+          
         </div>
       </div>
 
