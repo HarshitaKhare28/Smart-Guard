@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaFileAlt, FaExclamationCircle, FaCog, FaSignOutAlt } from 'react-icons/fa'; // Import FaSignOutAlt for logout icon
+import { FaFileAlt, FaExclamationCircle, FaSignOutAlt } from 'react-icons/fa'; // Import FaSignOutAlt for logout icon
 
 export const Home = () => {
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isEmergencyOpen, setEmergencyOpen] = useState(false);
+  const [isUpdateOpen, setUpdateOpen] = useState(false);
   const navigate = useNavigate();
 
   // Functions to navigate to different pages
@@ -23,8 +24,20 @@ export const Home = () => {
     navigate('/'); // Redirect to login page
   };
 
-  const closeBlankPage = () => {
-    setModalOpen(false);
+  const openEmergencyModal = () => {
+    setEmergencyOpen(true);
+  };
+
+  const closeEmergencyModal = () => {
+    setEmergencyOpen(false);
+  };
+
+  const openUpdateModal = () => {
+    setUpdateOpen(true);
+  };
+
+  const closeUpdateModal = () => {
+    setUpdateOpen(false);
   };
 
   return (
@@ -43,29 +56,19 @@ export const Home = () => {
           <p className="text-green-400 text-lg">Online</p>
         </div>
         <div className="w-full mt-8">
-          <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer border-b border-gray-600">
+          <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer border-b border-gray-600" onClick={openUpdateModal}>
             <FaFileAlt className="mr-3 text-xl" />
             <span className="text-lg">Updates</span>
           </div>
-          <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer border-b border-gray-600">
+          <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer " onClick={openEmergencyModal}>
             <FaExclamationCircle className="mr-3 text-xl" />
             <span className="text-lg">Emergency</span>
-          </div>
-          <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer">
-            <FaCog className="mr-3 text-xl" />
-            <span className="text-lg">Settings</span>
           </div>
           {/* Logout button */}
           <div className="flex items-center px-5 py-4 hover:bg-[#3a3a3a] cursor-pointer mt-1 border-t border-gray-600" onClick={handleLogout}>
             <FaSignOutAlt className="mr-3 text-xl" />
             <span className="text-lg">Logout</span>
           </div>
-        </div>
-        <div className="mt-auto w-full px-5">
-          <div className="text-sm text-gray-400 mb-2">About Us</div>
-          <div className="text-sm text-gray-400 mb-2">{"What's"} New</div>
-          <div className="text-sm text-gray-400 mb-4">Olivia Rhye</div>
-          <div className="text-sm text-gray-400 mb-4">olivia@untitledui.com</div>
         </div>
       </aside>
 
@@ -109,23 +112,61 @@ export const Home = () => {
         </div>
       </main>
 
-      {/* Modal for blank page */}
-      {isModalOpen && (
+      {/* Emergency Modal */}
+      {isEmergencyOpen && (
         <div
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50"
-          onClick={closeBlankPage}
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50"
+          onClick={closeEmergencyModal}
         >
           <div
-            className="bg-white p-5 border border-gray-400 w-[80%] max-w-[600px] relative"
+            className="bg-[#2c2c2c] p-6 border border-[#444] w-[80%] max-w-[600px] rounded-lg relative"
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className="absolute top-2 right-2 text-gray-400 text-2xl font-bold cursor-pointer hover:text-black"
-              onClick={closeBlankPage}
+              className="absolute top-2 right-2 text-gray-400 text-2xl font-bold cursor-pointer hover:text-white"
+              onClick={closeEmergencyModal}
             >
               &times;
             </button>
-            <p>This is the blank page content.</p>
+            <h3 className="text-xl font-semibold text-red-600 mb-4">Emergency Notification</h3>
+            <p>
+              ⚠️ **Urgent Alert** ⚠️  
+              A critical event has occurred in your area. Please stay alert and follow safety protocols. 
+              You are advised to stay inside and keep your phone charged for emergencies. 
+              Further updates will follow as soon as possible.
+            </p>
+            <button
+              className="mt-6 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300"
+              onClick={closeEmergencyModal}
+            >
+              Acknowledge
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Updates Modal */}
+      {isUpdateOpen && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50"
+          onClick={closeUpdateModal}
+        >
+          <div
+            className="bg-[#2c2c2c] p-6 border border-[#444] w-[80%] max-w-[600px] rounded-lg relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="absolute top-2 right-2 text-gray-400 text-2xl font-bold cursor-pointer hover:text-white"
+              onClick={closeUpdateModal}
+            >
+              &times;
+            </button>
+            <h3 className="text-xl font-semibold text-blue-600 mb-4">Recent Updates</h3>
+            <ul className="list-disc pl-5 text-white">
+              <li>🚀 **New Feature**: Real-time live tracking added to your dashboard!</li>
+              <li>🐞 **Bug Fixes**: Resolved performance issues with the map interface.</li>
+              <li>⚙️ **Scheduled Maintenance**: Maintenance planned for December 5th, 2024 from 2:00 AM to 4:00 AM (UTC).</li>
+            </ul>
           </div>
         </div>
       )}
