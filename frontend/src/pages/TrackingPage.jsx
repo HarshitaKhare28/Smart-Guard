@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, get } from "firebase/database";
 
-
+// Firebase Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAQlXbGH_qky3mytIgOvKw7spA5fIZwZmM",
   authDomain: "smartguarddemo-50a37.firebaseapp.com",
@@ -16,29 +16,28 @@ const firebaseConfig = {
   measurementId: "G-B34E9BHYJ9",
 };
 
-
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 const guards = [
-  { id: 1, name: "Jack", objectId: "object1" },
-  { id: 2, name: "Tony", objectId: "object2" },
-  { id: 3, name: "Mathew", objectId: "object3" },
-  { id: 4, name: "Ronny", objectId: "object4" },
-  { id: 5, name: "Louis", objectId: "object5" },
-  { id: 6, name: "Ram", objectId: "object6" },
-  { id: 7, name: "John", objectId: "object7" },
-  { id: 8, name: "Samuel", objectId: "object8" },
+  { id: 1, name: "Jack", objectId: "object1", workingHours: "9 AM - 6 PM", allottedSlot: "A1" },
+  { id: 2, name: "Tony", objectId: "object2", workingHours: "10 AM - 7 PM", allottedSlot: "B2" },
+  { id: 3, name: "Mathew", objectId: "object3", workingHours: "8 AM - 5 PM", allottedSlot: "C3" },
+  { id: 4, name: "Ronny", objectId: "object4", workingHours: "11 AM - 8 PM", allottedSlot: "D4" },
+  { id: 5, name: "Louis", objectId: "object5", workingHours: "12 PM - 9 PM", allottedSlot: "E5" },
+  { id: 6, name: "Ram", objectId: "object6", workingHours: "9 AM - 5 PM", allottedSlot: "F6" },
+  { id: 7, name: "John", objectId: "object7", workingHours: "7 AM - 3 PM", allottedSlot: "G7" },
+  { id: 8, name: "Samuel", objectId: "object8", workingHours: "6 PM - 2 AM", allottedSlot: "H8" },
 ];
 
 export const TrackingPage = () => {
-  const mapRef = useRef(null); // Use ref to hold the map instance
+  const mapRef = useRef(null);
   const [selectedGuard, setSelectedGuard] = useState(null);
 
   useEffect(() => {
     if (!mapRef.current) {
-      // Initialize the map only once
-      const map = L.map("map").setView([21.17663489751668, 79.06155360403324], 20); // Default center
+      const map = L.map("map").setView([21.17663489751668, 79.06155360403324], 20);
       mapRef.current = map;
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -65,8 +64,9 @@ export const TrackingPage = () => {
             const currentPosition = positions[currentIndex[guard.objectId]];
             if (currentPosition && currentPosition.latitude && currentPosition.longitude) {
               markers[guard.objectId]
-                .setLatLng([currentPosition.latitude, currentPosition.longitude]).bindPopup(`${guard.name} - Position ${currentIndex[guard.objectId]}`)
-                
+                .setLatLng([currentPosition.latitude, currentPosition.longitude])
+                .bindPopup(`${guard.name} - Position ${currentIndex[guard.objectId]}`);
+
               currentIndex[guard.objectId]++;
               if (currentIndex[guard.objectId] >= positions.length) {
                 currentIndex[guard.objectId] = 0;
@@ -94,7 +94,6 @@ export const TrackingPage = () => {
 
       const interval = setInterval(fetchData, 1000);
 
-      // Clean up when the component unmounts
       return () => {
         map.remove();
         mapRef.current = null;
@@ -105,13 +104,21 @@ export const TrackingPage = () => {
 
   useEffect(() => {
     if (selectedGuard && mapRef.current) {
-      const { lat, lng } = selectedGuard.position || { lat: 21.17663489751668, lng: 79.06155360403324 }; // Default center
-      mapRef.current.setView([lat, lng], 16); // Focus on the selected guard
+      const { lat, lng } = selectedGuard.position || { lat: 21.17663489751668, lng: 79.06155360403324 };
+      mapRef.current.setView([lat, lng], 16);
     }
   }, [selectedGuard]);
 
   const handleGuardClick = (guard) => {
     setSelectedGuard(guard);
+
+    // Display alert with guard details
+    alert(
+      `Guard Details:\n\n` +
+        `Name: ${guard.name}\n` +
+        `Working Hours: ${guard.workingHours}\n` +
+        `Allotted Slot: ${guard.allottedSlot}`
+    );
   };
 
   return (
@@ -129,7 +136,7 @@ export const TrackingPage = () => {
             } hover:bg-blue-600 w-full text-left`}
           >
             <img
-              src="/images/person.png" // Assuming you have an icon here
+              src="/images/person.png"
               alt="Person Icon"
               width="24"
               height="24"
@@ -138,8 +145,9 @@ export const TrackingPage = () => {
             {guard.name}
           </button>
         ))}
-        {/* Additional Text and User Info */}
-        <div className="mt-4">
+      
+         {/* Additional Text and User Info */}
+         <div className="mt-4">
           <p className="text-sm mb-2">Help Us Build</p>
           <p className="text-sm mb-4">{"What's New"}</p>
           <div className="flex items-center">
@@ -158,7 +166,6 @@ export const TrackingPage = () => {
           
         </div>
       </div>
-
       {/* Map Section */}
       <div className="w-3/4">
         <div id="map" style={{ height: "100vh", width: "100%" }}></div>
