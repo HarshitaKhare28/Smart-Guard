@@ -35,8 +35,17 @@ export const About = () => {
                     <div className="flex-grow text-left md:pr-6">
                         <h2 className="text-3xl font-semibold text-gray-100 mb-6">What is SmartGuard?</h2>
                         <p className="text-gray-400 leading-relaxed mb-6">
-                            SmartGuard is a cutting-edge real-time personnel tracking and incident response system designed to enhance security and operational efficiency. By utilizing advanced GPS technology and robust data management, SmartGuard ensures that your security personnel are always accounted for and capable of responding to incidents promptly.
-                        </p>
+                        SmartGuard is a real-time personnel tracking and incident management system that enhances security and operational efficiency. By leveraging GPS technology and cloud-based data storage, SmartGuard ensures personnel are always accounted for and able to respond to incidents swiftly. The system provides continuous tracking, allowing managers to monitor guard locations in real time.
+                    </p>
+
+                    <p className="text-gray-400 leading-relaxed mb-6">
+                        SmartGuard also features geofencing, alerting supervisors if guards move outside designated zones. It includes seamless incident reporting, enabling guards to log and address emergencies immediately, ensuring quick responses to security breaches.
+                    </p>
+
+                    <p className="text-gray-400 leading-relaxed mb-6">
+                        The {"system's"} data-driven approach helps organizations assess performance, spot trends, and make informed decisions to optimize security operations. With real-time tracking, incident management, and analytics, SmartGuard is a comprehensive solution for modern security management.
+                    </p>
+
                     </div>
 
                     {/* Image Section on the Right */}
