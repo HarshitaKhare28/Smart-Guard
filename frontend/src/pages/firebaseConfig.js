@@ -1,20 +1,13 @@
-// firebaseConfig.js
-import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
 
-export const firebaseConfig = {
-  apiKey: "AIzaSyCTaZbS-O22qAdOsj21aaDNW87M5t_JDb8",
-  authDomain: "live-location-tracking-ab4c4.firebaseapp.com",
-  databaseURL: "https://live-location-tracking-ab4c4-default-rtdb.firebaseio.com",
-  projectId: "live-location-tracking-ab4c4",
-  storageBucket: "live-location-tracking-ab4c4.appspot.com",
-  messagingSenderId: "765320667689",
-  appId: "1:765320667689:web:6771970afc3e1157a73238",
-  measurementId: "G-LSVHWXB5NC",
+const firebaseConfig = {
+  apiKey: "AIzaSyAnLmBiP4YywUhsLWwVLNN--ESnfIM0nEk",
+  authDomain: "esp32-b4028.firebaseapp.com",
+  databaseURL: "https://esp32-b4028-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "esp32-b4028",
+  storageBucket: "esp32-b4028.firebasestorage.app",
+  messagingSenderId: "115581766740",
+  appId: "1:115581766740:web:aac3f149f7b967d3cab1c1",
+  measurementId: "G-SB4LDGNYM7"
 };
 
-// Initialize Firebase once
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-
-export { database };
+export { firebaseConfig };
