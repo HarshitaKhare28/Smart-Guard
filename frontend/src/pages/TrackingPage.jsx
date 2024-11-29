@@ -6,15 +6,16 @@ import { getDatabase, ref, get } from "firebase/database";
 
 // Firebase Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAQlXbGH_qky3mytIgOvKw7spA5fIZwZmM",
-  authDomain: "smartguarddemo-50a37.firebaseapp.com",
-  databaseURL: "https://smartguarddemo-50a37-default-rtdb.firebaseio.com",
-  projectId: "smartguarddemo-50a37",
-  storageBucket: "smartguarddemo-50a37.appspot.com",
-  messagingSenderId: "647374288721",
-  appId: "1:647374288721:web:e6ccbd72bac4beeeb98570",
-  measurementId: "G-B34E9BHYJ9",
+  apiKey: "AIzaSyCTaZbS-O22qAdOsj21aaDNW87M5t_JDb8",
+  authDomain: "live-location-tracking-ab4c4.firebaseapp.com",
+  databaseURL: "https://live-location-tracking-ab4c4-default-rtdb.firebaseio.com",
+  projectId: "live-location-tracking-ab4c4",
+  storageBucket: "live-location-tracking-ab4c4.firebasestorage.app",
+  messagingSenderId: "765320667689",
+  appId: "1:765320667689:web:6771970afc3e1157a73238",
+  measurementId: "G-LSVHWXB5NC",
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

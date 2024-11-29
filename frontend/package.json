@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "chart.js": "^4.4.5",
+    "chart.js": "^4.4.6",
     "firebase": "^10.13.2",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.3",
